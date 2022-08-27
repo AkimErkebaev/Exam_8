@@ -1,0 +1,25 @@
+<h1>Продукты</h1>
+<div class="row">
+    {% for product in products %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3>{{ product.name }}</h3>
+                    <h5 class="card-title">{{ product.category }}</h5>
+                    <h3>{{ product.description }}</h3>
+                </div>
+                <a class="nav-link" href="{% url "webapp:product_view" product.pk %}">Подробнее</a>
+                {% if perms.webapp.add_users_in_product and user in product.users.all %}
+                    <a class="nav-link" href="{% url "webapp:change_users_in_project" project.pk %}">Редактировать
+                        состав</a>
+                {% endif %}
+                {% for u in product.users.all %}
+                    <span><a href="{% url "accounts:profile" u.pk %}">{{ u.username }}</a>,</span>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    {% if is_paginated %}
+        {% include "partial/pagination.html" %}
+    {% endif %}
+</div>

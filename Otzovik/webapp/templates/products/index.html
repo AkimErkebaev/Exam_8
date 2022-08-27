@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block nav %}
+    {% if perms.webapp.add_product %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "webapp:create_product" %}">Создание продукта</a>
+        </li>
+    {% endif %}
+    {#        {% if request.user.is_authenticated %}#}
+    {#            <li class="nav-item">#}
+    {#                <a class="nav-link" href="{% url "webapp:create_project" %}">Создание задания</a>#}
+    {#            </li>#}
+    {#        {% endif %}#}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "webapp:index" %}">Все продукты</a>
+    </li>
+{% endblock %}
+{% block content %}
+    {% include "partial/search.html" %}
+    {% include "partial/priducts_list_partial.html" %}
+{% endblock %}

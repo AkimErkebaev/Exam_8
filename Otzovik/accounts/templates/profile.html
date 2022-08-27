@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+{% block nav %}
+    {% if user_obj == user %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:change_profile' user_obj.pk %}">Редактировать</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:change_password' %}">Сменить пароль</a>
+        </li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="card flex-row mt-3">
+        {% if user_obj.profile.avatar %}
+            <img src="{{ user_obj.profile.avatar.url }}" class="card-img-top w-25" alt="...">
+        {% endif %}
+        <div class="card-body ms-5">
+            <h5 class="card-title">Имя пользователя: {{ user_obj.username }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Гитхаб: {{ user_obj.profile.github }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">О себе: {{ user_obj.profile.about }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Имя: {{ user_obj.first_name }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Фамилия: {{ user_obj.last_name }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Почта: {{ user_obj.email }}</h6>
+        </div>
+    </div>
+    {% for review in user_obj.reviews.all %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3>{{ review.user }}</h3>
+                    <h3>{{ review.review }}</h3>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

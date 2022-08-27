@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block nav %}
+    {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "webapp:create_review" %}">Оставить отзыв</a>
+        </li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% include "partial/search.html" %}
+    <h1>Отзывы</h1>
+    <div class="row">
+        {% for review in reviews %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>{{ review.user }}</h3>
+                        <h3>{{ review.review }}</h3>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% if is_paginated %}
+            {% include "partial/pagination.html" %}
+        {% endif %}
+    </div>
+{% endblock %}

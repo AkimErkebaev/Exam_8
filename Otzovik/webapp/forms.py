@@ -14,7 +14,6 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ["name", "category", "description", "image"]
         widgets = {
-            "category": widgets.CheckboxSelectMultiple,
             "description": widgets.Textarea(attrs={"placeholder": "Введите описание"})
         }
 
@@ -22,9 +21,9 @@ class ProductForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ["otziv", "mark", "bool", "image"]
+        fields = ['product', "review", "mark", "bool"]
         widgets = {
-            "otziv": widgets.Textarea(attrs={"placeholder": "Введите отзыв"})
+            "review": widgets.Textarea(attrs={"placeholder": "Введите отзыв"})
         }
 
     def clean_mark(self):
@@ -35,3 +34,26 @@ class ReviewForm(forms.ModelForm):
             raise ValidationError("Оценка не должна быть меньше 1")
         return mark
 
+
+class ProductDeleteForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ["name"]
+
+    def clean_title(self):
+        name = self.cleaned_data.get("name")
+        if self.instance.name != name:
+            raise ValidationError("Названия не совпадают")
+        return name
+
+
+class ReviewDeleteForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ["review"]
+
+    def clean_title(self):
+        review = self.cleaned_data.get("review")
+        if self.instance.name != review:
+            raise ValidationError("Названия не совпадают")
+        return review
