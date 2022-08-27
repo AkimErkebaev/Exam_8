@@ -75,7 +75,7 @@ class UpdateReview(PermissionRequiredMixin, UpdateView):
     permission_required = "webapp.change_review"
 
     def has_permission(self):
-        return super().has_permission() and self.request.user in self.get_object().project.users.all()
+        return super().has_permission() or self.request.user in self.get_object().project.users.all()
 
 
 class DeleteReview(PermissionRequiredMixin, DeleteView):
